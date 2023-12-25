@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book Details</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Book details</h1>
+    <div class="row">
+        <form class="col-5" th:action="@{/ratings}" th:object="${rating}" method="post">
+            <div class="form-group">
+                <label>Title:</label>
+                <b><label th:text="${book.title}"></label></b>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <b><label th:text="${book.description}"></label></b>
+            </div>
+            <div class="form-group">
+                <label>Author:</label>
+                <b><label th:text="${book.author}"></label></b>
+            </div>
+            <div class="form-group">
+                <label>Genres:</label>
+                <ul>
+                    <li th:each="genre: ${book.genres}" th:text="${genre.name}">
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label>Overall rating:</label>
+                <b><label th:text="${book.overallRating}"></label></b>
+            </div>
+            <div class="form-group">
+                <label>My rating:</label>
+                <b th:text="${userRating} ?: 'Not rated yet!'"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" th:id="bookId" th:name="bookId" th:value="${book.id}">
+                <input type="hidden" th:id="userId" th:name="userId" th:value="1">
+                <input type="radio" th:id="1" th:name="rating" value="1">
+                <label th:for="1">1</label>
+                <input th:type="radio" th:id="2" th:name="rating" value="2">
+                <label th:for="2">2</label>
+                <input th:type="radio" th:id="3" th:name="rating" value="3">
+                <label th:for="3">3</label>
+                <input th:type="radio" th:id="4" th:name="rating" value="4">
+                <label th:for="4">4</label>
+                <input th:type="radio" th:id="5" th:name="rating" value="5">
+                <label th:for="5">5</label>
+                <button id="rateBook" class="btn btn-primary mt-2" type="submit">Rate</button>
+            </div>
+        </form>
+    </div>
+    <h2 id="book-comments">Book comments</h2>
+    <div class="form-group" th:each="comment,iter : ${comments}">
+        <b th:text="${comment.personName}"></b>
+        <div class="form-control" th:id="${iter.index}" th:utext="${comment.comment}" disabled></div>
+    </div>
+    <div class="form-group">
+        <form class="col-5" th:action="@{/comments}" th:object="${comment}" method="post">
+            <input type="hidden" th:id="bookId" th:name="bookId" th:value="${book.id}">
+            <input type="hidden" th:id="userId" th:name="userId" th:value="1">
+            <label th:for="addComment">Add comment</label>
+            <textarea class="form-control" th:id="addComment" th:name="comment" rows="3"
+                      placeholder="Comment..."></textarea>
+            <button id="createComment" class="btn btn-primary mt-2" type="submit">Create comment</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
