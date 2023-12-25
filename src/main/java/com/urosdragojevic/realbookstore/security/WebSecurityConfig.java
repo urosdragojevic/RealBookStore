@@ -15,13 +15,18 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests.anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/books", true)
                         .permitAll()
                 )
-                .csrf(AbstractHttpConfigurer::disable);
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                );
 
         return http.build();
     }
