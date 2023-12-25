@@ -30,17 +30,19 @@ public class RatingRepository {
              ResultSet rs = statement.executeQuery(query)
         ) {
             if (rs.next()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(query2);
-                preparedStatement.setInt(1, rating.getRating());
-                preparedStatement.setInt(2, rating.getBookId());
-                preparedStatement.setInt(3, rating.getUserId());
-                preparedStatement.executeUpdate();
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query2)) {
+                    preparedStatement.setInt(1, rating.getRating());
+                    preparedStatement.setInt(2, rating.getBookId());
+                    preparedStatement.setInt(3, rating.getUserId());
+                    preparedStatement.executeUpdate();
+                }
             } else {
-                PreparedStatement preparedStatement = connection.prepareStatement(query3);
-                preparedStatement.setInt(1, rating.getBookId());
-                preparedStatement.setInt(2, rating.getUserId());
-                preparedStatement.setInt(3, rating.getRating());
-                preparedStatement.executeUpdate();
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query3)) {
+                    preparedStatement.setInt(1, rating.getBookId());
+                    preparedStatement.setInt(2, rating.getUserId());
+                    preparedStatement.setInt(3, rating.getRating());
+                    preparedStatement.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

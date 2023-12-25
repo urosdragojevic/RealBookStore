@@ -15,6 +15,9 @@
     <description>RealBookStore</description>
     <properties>
         <java.version>17</java.version>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.projectName>RealBookStore</sonar.projectName>
+        <sonar.projectKey>RealBookStore</sonar.projectKey>
     </properties>
     <dependencies>
         <dependency>
@@ -66,7 +69,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.10.0.2594</version>
+            </plugin>
         </plugins>
     </build>
-
 </project>
+
+
