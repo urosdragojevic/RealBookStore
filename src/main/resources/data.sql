@@ -1,12 +1,12 @@
 insert into users(username, password)
 values ('bruce', 'wayne'),
-       ('peter', 'security_rules'),
+       ('sam', 'security_rules'),
        ('tom', 'guessmeifyoucan'),
        ('toeLover', 'blood_everywhere');
 
 insert into persons(firstName, lastName, email)
-values ('bruce', 'wayne', 'notBatman@gmail.com'),
-       ('Peter', 'Petigrew', 'oneFingernailFewerToClean@gmail.com'),
+values ('Bruce', 'Wayne', 'notBatman@gmail.com'),
+       ('Sam', 'Vimes', 'night-watch@gmail.com'),
        ('Tom', 'Riddle', 'theyGotMyNose@gmail.com'),
        ('Quentin', 'Tarantino', 'qt5@gmail.com');
 
