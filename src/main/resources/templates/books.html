@@ -113,7 +113,7 @@
 
       const searchQuery = getSearchQuery();
       updateSearchTerm(searchQuery);
-      fetch(`/api/books/search?query=${searchQuery}`)
+      fetch(`/books/search?query=${searchQuery}`)
               .then(handleErrors)
               .then(response => response.json())
               .then(updateSearchResults)

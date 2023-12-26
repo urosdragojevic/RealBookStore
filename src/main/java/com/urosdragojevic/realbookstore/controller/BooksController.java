@@ -5,10 +5,9 @@ import com.urosdragojevic.realbookstore.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +71,12 @@ public class BooksController {
     public String CreateForm(Model model) {
         model.addAttribute("genres", genreRepository.getAll());
         return "create-form";
+    }
+
+    @GetMapping(value = "/books/search", produces = "application/json")
+    @ResponseBody
+    public List<Book> search(@RequestParam("query") String query) throws SQLException {
+        return bookRepository.search(query);
     }
 
     @PostMapping("/books")
