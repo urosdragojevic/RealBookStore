@@ -7,7 +7,7 @@
 4.	[Cross-site request forgery](#cross-site-request-forgery)
 5.	[Implementacija autorizacije](#implementacija-autorizacije)
 6.	[DevOps](#devops)
-7.	[Priprema rešenja projekta](#priprema-rešenja-projekta)
+7.	[Predaja projekta](#predaja-projekta)
 8.	[Odbrana projekta](#odbrana-projekta)
 
 ## Uvod
@@ -26,18 +26,35 @@ Aplikacija RealBookStore omogućava sledeće:
 - Detaljan pregled podataka korisnika (Slika 1.5).
 
 
- 
-Slika 1.1 Pregled i pretraga knjiga (books.html)
- 
-Slika 1.2 Dodavanje nove knjige (create-form.html)
+![books.html](C:\Users\drru\Projects\RealBookStore\tasks\img\books.png)
 
- 
-Slika 1.3 Detaljan pregleda knjige kao i komentarisanje i ocenjivanje knjige (book.html)
- 
-Slika 1.4 Pregled korisnika aplikacije (persons.html)
+Slika 1.1 Pregled i pretraga knjiga (`books.html`)
 
-Slika 1.5 Detaljan pregled podataka korisnika (person.html)
+---
 
+![create-form.html](C:\Users\drru\Projects\RealBookStore\tasks\img\add_book.png)
+
+Slika 1.2 Dodavanje nove knjige (`create-form.html`)
+
+---
+
+![book.html](C:\Users\drru\Projects\RealBookStore\tasks\img\book_details.png) 
+
+Slika 1.3 Detaljan pregleda knjige kao i komentarisanje i ocenjivanje knjige (`book.html`)
+
+---
+
+![persons.html](C:\Users\drru\Projects\RealBookStore\tasks\img\users.png)
+
+Slika 1.4 Pregled korisnika aplikacije (`persons.html`)
+
+---
+
+![person.html](C:\Users\drru\Projects\RealBookStore\tasks\img\profile.png)
+
+Slika 1.5 Detaljan pregled podataka korisnika (`person.html`)
+
+---
 
 U nastavku teksta su definisane stavke koje je potrebno uraditi u okviru projekta.
 
@@ -49,7 +66,7 @@ Analizirati sve tačke (ukoliko postoje) u _Vulnerability_ i _Security Hotspot_ 
 
 Za svaku stavku je potrebno:
 
-- Obeležiti je kao true positive (confirm) ili false positive uz obrazloženje.
+- Obeležiti je kao **true positive** (confirm) ili **false positive uz obrazloženje**.
 - Uraditi screenshot i priložiti uz rešenje projekta.
 
 Potrebno je da izveštaj bude pregledan.
@@ -69,8 +86,8 @@ Proveriti da li preko ove forme može da se izvrši neka vrsta XSS ili SQLi napa
 U slučaju da može, iskoristiti odgovarajuću ranjivost da ubacite novog korisnika u bazu.
 Voditi računa, novog korisnika je potrebno ubaciti u tabelu person, a ne u tabelu user u bazi.
 
-Stranica persons.html (Slika 1.4) ima propust u zaštiti od XSS napada, pa je konačni zadatak da ubačeni korisnik, kao neki od svojih atributa ima zlonamernu JavaScript skriptu koja će na konzolni izlaz da ispiše vrednost kolačića sesije korisnika.
-Ranjivost se aktivira prilikom pretrage korisnika na stranici persons.html (Slika 1.4).
+Stranica `persons.html` (Slika 1.4) ima propust u zaštiti od XSS napada, pa je konačni zadatak da ubačeni korisnik, kao neki od svojih atributa ima zlonamernu JavaScript skriptu koja će na konzolni izlaz da ispiše vrednost kolačića sesije korisnika.
+Ranjivost se aktivira prilikom pretrage korisnika na stranici `persons.html` (Slika 1.4).
 
 Obavezno je dokumentovati ovaj napad i poslati ga sa projektnim zadatkom.
 
@@ -80,7 +97,7 @@ Obavezno je dokumentovati ovaj napad i poslati ga sa projektnim zadatkom.
 Neophodno je zaštititi se od prethodno opisanog napada tako da ne može da se izvrši napad preko forme za ostavljanje komentara.
 Odnosno, neophodno izvršiti zaštitu od SQLi napada i/ili od XSS napada.
 
-Takođe, na stranici persons.html (Slika 1.4) neophodno je popraviti ranjivosti koje omogućuju XSS napad.
+Takođe, na stranici `persons.html` (Slika 1.4) neophodno je popraviti ranjivosti koje omogućuju XSS napad.
 _Popravka ranjivosti ne sme da naruši ili promeni funkcionalnost aplikacije._
 
 > Napomena: Nije potrebno zaštititi celu aplikaciju od SQLi i XSS napada, već samo na mestima na kojima je uočen propust u ovoj sekciji (sekciji 3). 
@@ -92,8 +109,8 @@ _Popravka ranjivosti ne sme da naruši ili promeni funkcionalnost aplikacije._
 
 Aplikacija nema zaštitu protiv CSRF napada.
 
-Neophodno je demonstrirati napad na sledeći način: koristeći aplikaciju koja simulira napad (folder csrf-exploit unutar projekta) treba napraviti skriptu tj. poziv ka endpointu /update-person unutar PersonsController.java klase.
-Napad treba da promeni lične podatke korisnika sa ID = 1, tako da je firstName = “Batman” i lastName = “Dark Knight”.
+Neophodno je demonstrirati napad na sledeći način: koristeći aplikaciju koja simulira napad (folder `csrf-exploit` unutar projekta) treba napraviti skriptu tj. poziv ka endpointu `/update-person` unutar `PersonsController.java` klase.
+Napad treba da promeni lične podatke korisnika sa `id = 1`, tako da je `firstName = “Batman”` i `lastName = “Dark Knight”`.
 
 _Obavezno dokumentovati napad i predati ga sa projektom._
 
@@ -103,8 +120,8 @@ Neophodno je implementirati zaštitu od CSRF napada korišćenjem tokena.
 
 Odbranu je potrebno primeniti samo na gorenavedeni endpoint. Popravka ranjivosti ne sme da naruši ili promeni funkcionalnost aplikacije.
 
-> Za dohvatanje vrednosti CSRF tokena možete iskoristiti HttpSession httpSession objekat u metodi kontrolera.
-> Token generiše i čuva u sesiji korisnika implementacija koju možete naći u CsrfHttpSessionListener.java klasi.
+> Za dohvatanje vrednosti CSRF tokena možete iskoristiti `HttpSession httpSession` objekat u metodi kontrolera.
+> Token generiše i čuva u sesiji korisnika implementacija koju možete naći u `CsrfHttpSessionListener.java` klasi.
 
 ## Implementacija autorizacije
 ### Broj poena: 10
@@ -171,15 +188,15 @@ Ocenjivaće se:
 > Pri obradi izuzetaka treba uzeti u obzir da li će se korisnikovo iskustvo poboljšati ukoliko mu  se prikaže smislena poruka na korisničkom interfejsu.
 > Ovaj deo se neće ocenjivati.
  
-## Priprema rešenja projekta
+## Predaja projekta
 
-Projekat se predaje kao ZIP fajl ili kao Github repozitorijum se sledećom strukturom direktorijuma:
-- Project
-    - SonarQube izveštaj
-    - Code
-- RealBookStore [kod sa GitHub repozitorijuma sa implementiranim zaštitama]
-- Attacks
-    - Microsoft Word fajl/fajlovi sa koracima za napad ili screenshot-ovima sa uspešnim napadima i kodom korišćenim za napad.
+1. Forkujte ovaj repozitorijum na svoj GitHub nalog.
+2. Rešenja zadataka commitujte i pushujte na svoj repo. 
+3. `main` grana vašeg repozitorijuma treba da bude u takvom stanju da su rešeni svi zadaci (implementirane su sve potrebne zaštite).
+4. Izveštaje (screenshotove napada i Sonarqube izveštaj) commitujte u folder `report`
+
+> U folderu `report` se nalazi `sample-report` fajl koji možete koristiti kao inspiraciju.
+> Možete koristiti taj format ili bilo koji drugi, samo da je razumljiv i čitljiv.
 
 ## Odbrana projekta
 
