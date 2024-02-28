@@ -195,7 +195,7 @@ Ocenjivaće se:
 3. `main` grana vašeg repozitorijuma treba da bude u takvom stanju da su rešeni svi zadaci (implementirane su sve potrebne zaštite).
 4. Izveštaje (screenshotove napada i Sonarqube izveštaj) commitujte u folder `report`
 
-> U folderu `report` se nalazi `sample-report` fajl koji možete koristiti kao inspiraciju.
+> U folderu `report` se nalaze primeri izveštaja koje možete koristiti kao inspiraciju.
 > Možete koristiti taj format ili bilo koji drugi, samo da je razumljiv i čitljiv.
 
 ## Odbrana projekta
