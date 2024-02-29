@@ -8,6 +8,8 @@
 2. Run the application using Maven
 3. See *SonarQube setup* section for instructions on running SonarQube for code analysis tasks
 
+> Project uses Java 17.
+
 ## SonarQube setup
 
 1. Install Docker and Docker Compose (Docker Desktop for Windows/Mac machines)
@@ -30,3 +32,8 @@
 > Run configuration that can be used in IntelliJ for `sonar:sonar` task is stored in the `.run` folder.
 
 7. Run the `sonar:sonar` task. Once it completes you can access the *RealBookStore* project in SonarQube and check the code analysis results.
+
+
+## Contributors
+
+[Petar Zečević](https://github.com/PetarZecevic97)
