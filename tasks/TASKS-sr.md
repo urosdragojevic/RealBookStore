@@ -134,13 +134,13 @@ Tabela 5.1 Tabela permisija
 | Permisija         | ADMIN | MANAGER                | REVIEWER              |
 |-------------------|-------|------------------------|-----------------------|
 | ADD_COMMENT	      | *	    | *	                     | *                     |
-| VIEW_MOVIES_LIST	 | *	    | *	                     | *                     |
-| CREATE_MOVIE	     | *	    | *	                     | X                     |
+| VIEW_BOOKS_LIST	 | *	    | *	                     | *                     |
+| CREATE_BOOK	     | *	    | *	                     | X                     |
 | VIEW_PERSONS_LIST | *	    | *	                     | X                     |
 | VIEW_PERSON	      | *	    | X                      | X                     |	
 | UPDATE_PERSON	    | *	    | * - pogledaj napomenu	 | * - pogledaj napomenu |
 | VIEW_MY_PROFILE	  | *	    | *	                     | *                     |
-| RATE_MOVIE	       | *	    | *                      | X                     |
+| RATE_BOOK	       | *	    | *                      | *                     |
 
 Postavite da korisnik **tom** ima rolu _ADMIN_, **toelover** rolu _MANAGER_ i korisnici **bruce** i **sam** imaju rolu _REVIEWER_. Napravite u bazi nedostajuću rolu i nedostajuće permisije. 
 
@@ -149,13 +149,13 @@ U nastavku se nalaze kratki opisi permisija:
 | Permisija         | Opis                                                                             |
 |-------------------|----------------------------------------------------------------------------------|
 | ADD_COMMENT	      | Dozvoljava korisniku da doda komentar.                                           |
-| VIEW_MOVIES_LIST	 | Dozvoljava korisniku da vidi i pretraži listu knjiga.                            |
-| CREATE_MOVIE	     | Dozvoljava korisniku da unese novu knjigu.                                       |
+| VIEW_BOOKS_LIST	 | Dozvoljava korisniku da vidi i pretraži listu knjiga.                            |
+| CREATE_BOOK	     | Dozvoljava korisniku da unese novu knjigu.                                       |
 | VIEW_PERSONS_LIST | Dozvoljava korisniku da vidi i pretraži listu korisnika.                         |
 | VIEW_PERSON	      | Dozvoljava korisniku da vidi detalje osobe.                                      |
 | UPDATE_PERSON     | Dozvoljava korisniku da promeni detalje osobe (isto važi za brisanje korisnika). |
 | VIEW_MY_PROFILE   | Dozvoljava pregled sopstvenog profila.                                           |
-| RATE_MOVIE	       | Dozvoljava da korisnik oceni knjigu.                                             |
+| RATE_BOOK	       | Dozvoljava da korisnik oceni knjigu.                                             |
 
 
 > Napomena: Rolama _MANAGER_ i _REVIEWER_ je dozvoljena promena isključivo svojih sopstvenih podataka.
