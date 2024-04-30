@@ -27,6 +27,7 @@
             </div>
             <input type="hidden" name="id" class="form-control" id="id" th:value="${person.id}">
             <button type="submit" class="btn btn-primary">Save</button>
+            <input type="hidden" name="CSRFToken" th:value="${CSRF_TOKEN}">
         </form>
     </div>
 
