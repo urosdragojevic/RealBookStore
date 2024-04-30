@@ -60,7 +60,7 @@
     <h2 id="book-comments">Book comments</h2>
     <div class="form-group" th:each="comment,iter : ${comments}">
         <b th:text="${comment.personName}"></b>
-        <div class="form-control" th:id="${iter.index}" th:utext="${comment.comment}" disabled></div>
+        <div class="form-control" th:id="${iter.index}" th:text="${comment.comment}" disabled></div>
     </div>
     <div class="form-group">
         <form class="col-5" th:action="@{/comments}" th:object="${comment}" method="post">
