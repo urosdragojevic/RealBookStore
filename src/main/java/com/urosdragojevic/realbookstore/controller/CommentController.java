@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class CommentController {
@@ -21,6 +22,7 @@ public class CommentController {
     }
 
     @PostMapping(value = "/comments")
+    @PreAuthorize("hasAnyAuthority('ADD_COMMENT')")
     public String createComment(@ModelAttribute Comment comment, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         comment.setUserId(user.getId());

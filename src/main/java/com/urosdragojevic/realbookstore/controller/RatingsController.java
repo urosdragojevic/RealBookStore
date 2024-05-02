@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class RatingsController {
@@ -19,6 +20,7 @@ public class RatingsController {
     }
 
     @PostMapping(value = "/ratings")
+    @PreAuthorize("hasAuthority('RATE_BOOK')")
     public String createOrUpdateRating(@ModelAttribute Rating rating) {
         rating.setUserId(1);
         ratingRepository.createOrUpdate(rating);
