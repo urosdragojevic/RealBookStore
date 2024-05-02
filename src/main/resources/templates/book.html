@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -43,17 +43,17 @@
             <div class="form-group">
                 <input type="hidden" th:id="bookId" th:name="bookId" th:value="${book.id}">
                 <input type="hidden" th:id="userId" th:name="userId" th:value="1">
-                <input type="radio" th:id="1" th:name="rating" value="1">
+                <input th:disabled="${not #authorization.expression('hasAuthority(''RATE_BOOK'')')}" type="radio" th:id="1" th:name="rating" value="1">
                 <label th:for="1">1</label>
-                <input th:type="radio" th:id="2" th:name="rating" value="2">
+                <input th:disabled="${not #authorization.expression('hasAuthority(''RATE_BOOK'')')}" th:type="radio" th:id="2" th:name="rating" value="2">
                 <label th:for="2">2</label>
-                <input th:type="radio" th:id="3" th:name="rating" value="3">
+                <input th:disabled="${not #authorization.expression('hasAuthority(''RATE_BOOK'')')}" th:type="radio" th:id="3" th:name="rating" value="3">
                 <label th:for="3">3</label>
-                <input th:type="radio" th:id="4" th:name="rating" value="4">
+                <input th:disabled="${not #authorization.expression('hasAuthority(''RATE_BOOK'')')}" th:type="radio" th:id="4" th:name="rating" value="4">
                 <label th:for="4">4</label>
-                <input th:type="radio" th:id="5" th:name="rating" value="5">
+                <input th:disabled="${not #authorization.expression('hasAuthority(''RATE_BOOK'')')}" th:type="radio" th:id="5" th:name="rating" value="5">
                 <label th:for="5">5</label>
-                <button id="rateBook" class="btn btn-primary mt-2" type="submit">Rate</button>
+                <button sec:authorize="hasAuthority('RATE_BOOK')" id="rateBook" class="btn btn-primary mt-2" type="submit">Rate</button>
             </div>
         </form>
     </div>
@@ -68,8 +68,9 @@
             <input type="hidden" th:id="userId" th:name="userId" th:value="1">
             <label th:for="addComment">Add comment</label>
             <textarea class="form-control" th:id="addComment" th:name="comment" rows="3"
-                      placeholder="Comment..."></textarea>
-            <button id="createComment" class="btn btn-primary mt-2" type="submit">Create comment</button>
+                      placeholder="Comment..."
+                      th:disabled="${not #authorization.expression('hasAuthority(''ADD_COMMENT'')')}"></textarea>
+            <button sec:authorize="hasAuthority('ADD_COMMENT')" id="createComment" class="btn btn-primary mt-2" type="submit">Create comment</button>
         </form>
     </div>
 </div>

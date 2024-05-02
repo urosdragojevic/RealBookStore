@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -13,8 +13,8 @@
   <h1>Books</h1>
   <div class="container">
     <div class="input-group mb-3">
-      <input type="text" id="searchQuery" class="form-control">
-      <div class="input-group-append">
+      <input th:disabled="${not #authorization.expression('hasAuthority(''VIEW_BOOKS_LIST'')')}" type="text" id="searchQuery" class="form-control">
+      <div sec:authorize="hasAuthority('VIEW_BOOKS_LIST')" class="input-group-append">
         <button class="btn btn-outline-primary" id="bookSearchButton" type="button" onclick="search()">Search
         </button>
       </div>
@@ -42,7 +42,7 @@
       </tr>
       </tbody>
     </table>
-    <a href="/create-form">Add book</a>
+    <a sec:authorize="hasAuthority('CREATE_BOOK')" href="/create-form">Add book</a>
   </div>
   <template id="row-template">
     <tr>
