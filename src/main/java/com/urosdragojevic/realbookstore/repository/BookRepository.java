@@ -1,6 +1,7 @@
 package com.urosdragojevic.realbookstore.repository;
 
 import com.urosdragojevic.realbookstore.audit.AuditLogger;
+import com.urosdragojevic.realbookstore.audit.Entity;
 import com.urosdragojevic.realbookstore.domain.Book;
 import com.urosdragojevic.realbookstore.domain.Genre;
 import com.urosdragojevic.realbookstore.domain.NewBook;
@@ -37,6 +38,7 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem retrieving all books.");
         }
         return bookList;
     }
@@ -54,6 +56,9 @@ public class BookRepository {
             while (rs.next()) {
                 bookList.add(createBookFromResultSet(rs));
             }
+        }catch (SQLException e) {
+            e.printStackTrace();
+            LOG.warn("There was a problem while searching for books with search term: " + searchTerm);
         }
         return bookList;
     }
@@ -68,6 +73,7 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while retrieving book with id: " + bookId);
         }
         return null;
     }
@@ -95,11 +101,14 @@ public class BookRepository {
                         statement2.executeUpdate();
                     } catch (SQLException e) {
                         e.printStackTrace();
+                        LOG.error("There was a problem while inserting genre for book with id: " +  finalId);
                     }
                 });
+                LOG.info("New book with id " + finalId + " created");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while creating new book");
         }
         return id;
     }
@@ -118,7 +127,9 @@ public class BookRepository {
             statement.executeUpdate(query4);
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while deleting book with id: " + bookId);
         }
+        auditLogger.audit("Book with id" + bookId + "deleted");
     }
 
     private Book createBookFromResultSet(ResultSet rs) throws SQLException {

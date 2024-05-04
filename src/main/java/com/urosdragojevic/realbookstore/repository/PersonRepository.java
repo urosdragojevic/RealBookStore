@@ -2,6 +2,7 @@ package com.urosdragojevic.realbookstore.repository;
 
 import com.urosdragojevic.realbookstore.audit.AuditLogger;
 import com.urosdragojevic.realbookstore.domain.Person;
+import com.urosdragojevic.realbookstore.audit.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public class PersonRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while retrieving all persons");
         }
         return personList;
     }
@@ -48,6 +50,9 @@ public class PersonRepository {
             while (rs.next()) {
                 personList.add(createPersonFromResultSet(rs));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOG.warn("There was a problem while searching for persons with search term: " + searchTerm);
         }
         return personList;
     }
@@ -62,6 +67,7 @@ public class PersonRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while retrieving person with id: " + personId);
         }
 
         return null;
@@ -73,8 +79,12 @@ public class PersonRepository {
              Statement statement = connection.createStatement();
         ) {
             statement.executeUpdate(query);
+
+            auditLogger.audit("Person with id" + personId + "deleted");
+
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("Error occurred while deleting person with id: " +  personId);
         }
     }
 
@@ -94,12 +104,16 @@ public class PersonRepository {
              PreparedStatement statement = connection.prepareStatement(query);
         ) {
             String firstName = personUpdate.getFirstName() != null ? personUpdate.getFirstName() : personFromDb.getFirstName();
+            auditLogger.audit("First name changed from: " + personFromDb.getFirstName() + " updated to: " + firstName);
             String email = personUpdate.getEmail() != null ? personUpdate.getEmail() : personFromDb.getEmail();
+            auditLogger.audit("Email changed from: " + personFromDb.getEmail() + " updated to: " + email);
+
             statement.setString(1, firstName);
             statement.setString(2, email);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while updating person with id: " +  personUpdate.getId());
         }
     }
 }

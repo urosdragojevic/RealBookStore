@@ -1,6 +1,8 @@
 package com.urosdragojevic.realbookstore.repository;
 
 import com.urosdragojevic.realbookstore.domain.Rating;
+import com.urosdragojevic.realbookstore.audit.AuditLogger;
+import com.urosdragojevic.realbookstore.audit.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,6 +16,7 @@ import java.util.List;
 public class RatingRepository {
 
     private static final Logger LOG = LoggerFactory.getLogger(RatingRepository.class);
+    private static final AuditLogger auditLogger = AuditLogger.getAuditLogger(RatingRepository.class);
     private DataSource dataSource;
 
     public RatingRepository(DataSource dataSource) {
@@ -35,6 +38,8 @@ public class RatingRepository {
                     preparedStatement.setInt(2, rating.getBookId());
                     preparedStatement.setInt(3, rating.getUserId());
                     preparedStatement.executeUpdate();
+
+                    auditLogger.audit("User with id : " + rating.getUserId() + "updated book with id : " + rating.getBookId());
                 }
             } else {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query3)) {
@@ -42,10 +47,13 @@ public class RatingRepository {
                     preparedStatement.setInt(2, rating.getUserId());
                     preparedStatement.setInt(3, rating.getRating());
                     preparedStatement.executeUpdate();
+
+                    auditLogger.audit("User with id : " + rating.getUserId() + "add book with id: " + rating.getBookId());
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while creating or updating rating for book with id: , user: " +  rating.getBookId());
         }
     }
 
@@ -60,6 +68,7 @@ public class RatingRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOG.error("There was a problem while retrieving ratings for book with id: ", bookId);
         }
         return ratingList;
     }
@@ -71,5 +80,4 @@ public class RatingRepository {
         }
         return (float) allRatings.stream().map((Rating::getRating)).reduce(Integer::sum).orElseThrow() / (long) allRatings.size();
     }
-
 }
