@@ -37,10 +37,20 @@ values (1, 3, 5),
 insert into comments(bookId, userId, comment)
 values (1, 1, 'They are taking the hobbits to Isengard. P.S. I am not Batman');
 
-insert into roles(name)
-values ('ADMIN'),
-       ('MANAGER'),
-       ('REVIEWER');
+insert into roles(id, name)
+values (1, 'ADMIN'),
+       (2, 'MANAGER'),
+       (3, 'REVIEWER');
+
+insert into permissions(id, name)
+values (1, 'ADD_COMMENT'),
+       (2, 'VIEW_BOOKS_LIST'),
+       (3, 'CREATE_BOOK'),
+       (4, 'VIEW_PERSONS_LIST'),
+       (5, 'VIEW_PERSON'),
+       (6, 'UPDATE_PERSON'),
+       (7, 'VIEW_MY_PROFILE'),
+       (8, 'RATE_BOOK');
 
 insert into user_to_roles(userId, roleId)
 values (1, 3),
@@ -48,3 +58,24 @@ values (1, 3),
        (3, 1),
        (4, 2);
 
+insert into role_to_permissions(roleId, permissionId)
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (1, 7),
+       (1, 8),
+       (2, 1),
+       (2, 2),
+       (2, 3),
+       (2, 4),
+       (2, 6),
+       (2, 7),
+       (2, 8),
+       (3, 1),
+       (3, 2),
+       (3, 6),
+       (3, 7),
+       (3, 8);

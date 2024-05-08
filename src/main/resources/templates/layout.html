@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -29,18 +30,18 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" th:href="@{/books}">Real Book Store</a>
+        <a class="navbar-brand" sec:authorize="hasAuthority('VIEW_BOOKS_LIST')" th:href="@{/books}">Real Book Store</a>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/books}">Books</a>
+                <a class="nav-link" sec:authorize="hasAuthority('VIEW_BOOKS_LIST')"  th:href="@{/books}">Books</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/persons}">Users</a>
+                <a class="nav-link" sec:authorize="hasAuthority('VIEW_PERSONS_LIST')"  th:href="@{/persons}">Users</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/myprofile}">My Profile</a>
+                <a sec:authorize="hasAuthority('VIEW_MY_PROFILE')" class="nav-link" th:href="@{/myprofile}">My Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Logout</a>

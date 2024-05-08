@@ -14,6 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.urosdragojevic.realbookstore.repository.RoleRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 
 import java.sql.SQLException;
 import java.util.List;
@@ -26,13 +31,18 @@ public class PersonsController {
 
     private final PersonRepository personRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public PersonsController(PersonRepository personRepository, UserRepository userRepository) {
+
+    public PersonsController(PersonRepository personRepository, UserRepository userRepository, RoleRepository roleRepository) {
         this.personRepository = personRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
+
     @GetMapping("/persons/{id}")
+    @PreAuthorize("hasAuthority('VIEW_PERSON')")
     public String person(@PathVariable int id, Model model, HttpSession session) {
         String csrf = session.getAttribute("CSRF_TOKEN").toString();
         model.addAttribute("CSRF_TOKEN", session.getAttribute("CSRF_TOKEN"));
@@ -41,6 +51,7 @@ public class PersonsController {
     }
 
     @GetMapping("/myprofile")
+    @PreAuthorize("hasAuthority('VIEW_MY_PROFILE')")
     public String self(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         model.addAttribute("person", personRepository.get("" + user.getId()));
@@ -48,7 +59,17 @@ public class PersonsController {
     }
 
     @DeleteMapping("/persons/{id}")
+    @PreAuthorize("hasAuthority('UPDATE_PERSON')")
     public ResponseEntity<Void> person(@PathVariable int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User)authentication.getPrincipal();
+        if(roleRepository.findByUserId(currentUser.getId()).stream().anyMatch(role ->
+                role.getName().equals("MANAGER") || role.getName().equals("REVIEWER"))) {
+            if (id != currentUser.getId()) {
+                throw new org.springframework.security.access.AccessDeniedException("Forbidden");
+            }
+        }
+
         personRepository.delete(id);
         userRepository.delete(id);
 
@@ -56,17 +77,29 @@ public class PersonsController {
     }
 
     @PostMapping("/update-person")
+    @PreAuthorize("hasAuthority('UPDATE_PERSON')")
     public String updatePerson(Person person, HttpSession session, @RequestParam("csrfToken") String csrfToken)
             throws AccessDeniedException{
         String csrf = session.getAttribute("CSRF_TOKEN").toString();
         if(!csrfToken.equals(csrfToken)) {
             throw new AccessDeniedException("Forbidden");
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        if(roleRepository.findByUserId(currentUser.getId()).stream().anyMatch(role ->
+                role.getName().equals("MANAGER") || role.getName().equals("REVIEWER"))) {
+            if (Integer.valueOf(person.getId()) != currentUser.getId()) {
+                throw new AccessDeniedException("Forbidden");
+            }
+        }
+
         personRepository.update(person);
         return "redirect:/persons/" + person.getId();
     }
 
     @GetMapping("/persons")
+    @PreAuthorize("hasAuthority('VIEW_PERSONS_LIST')")
     public String persons(Model model) {
         model.addAttribute("persons", personRepository.getAll());
         return "persons";
